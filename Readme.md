@@ -112,7 +112,7 @@ When you're integrating this into an app with Xcode then go to your project's Pa
 When you're integrating this using SPM on its own then add this to the list of dependencies your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/samsonjs/AsyncMonitor.git", .upToNextMajor(from: "0.1.1"))
+.package(url: "https://github.com/samsonjs/AsyncMonitor.git", .upToNextMajor(from: "0.2"))
 ```
 
 and then add `"AsyncMonitor"` to the list of dependencies in your target as well.
