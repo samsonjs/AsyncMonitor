@@ -5,7 +5,8 @@
 ///
 /// ```
 /// NotificationCenter.default
-///     .notifications(named: .NSCalendarDayChanged).map(\.name)
+///     .notifications(named: .NSCalendarDayChanged)
+///     .map(\.name)
 ///     .monitor { _ in whatever() }
 ///     .store(in: &cancellables)
 /// ```
@@ -42,5 +43,15 @@ public final class AsyncMonitor: Hashable, AsyncCancellable {
     /// Cancels the underlying task monitoring the asynchronous sequence.
     public func cancel() {
         task.cancel()
+    }
+
+    // MARK: Hashable conformance
+
+    public static func == (lhs: AsyncMonitor, rhs: AsyncMonitor) -> Bool {
+        lhs.task == rhs.task
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(task)
     }
 }

@@ -18,8 +18,12 @@ public extension NSObjectProtocol where Self: NSObject {
         let token = self.observe(keyPath, options: options) { object, _ in
             continuation.yield(object[keyPath: keyPath])
         }
+        let locker = TokenLocker(token: token)
+        continuation.onTermination = { _ in
+            locker.clear()
+        }
         return stream.monitor { value in
-            _ = token // keep this alive
+            _ = locker // keep this alive
             changeHandler(value)
         }
     }

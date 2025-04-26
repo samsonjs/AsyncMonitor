@@ -15,15 +15,3 @@ public extension AsyncCancellable {
         set.insert(AnyAsyncCancellable(cancellable: self))
     }
 }
-
-// MARK: Hashable conformance
-
-public extension AsyncCancellable {
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(ObjectIdentifier(self))
-    }
-}
