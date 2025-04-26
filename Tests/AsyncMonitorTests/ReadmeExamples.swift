@@ -1,7 +1,7 @@
 import Foundation
 @testable import AsyncMonitor
 
-@MainActor class SimplestVersion {
+class SimplestVersion {
     let cancellable = NotificationCenter.default
         .notifications(named: .NSCalendarDayChanged).map(\.name)
         .monitor { _ in
@@ -9,7 +9,7 @@ import Foundation
         }
 }
 
-@MainActor class WithContext {
+class WithContext {
     var cancellables = Set<AnyAsyncCancellable>()
 
     init() {

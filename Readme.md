@@ -31,7 +31,7 @@ When you're integrating this into an app with Xcode then go to your project's Pa
 When you're integrating this using SPM on its own then add this to the list of dependencies your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/samsonjs/AsyncMonitor.git", .upToNextMajor(from: "0.1.0"))
+.package(url: "https://github.com/samsonjs/AsyncMonitor.git", .upToNextMajor(from: "0.1.1"))
 ```
 
 and then add `"AsyncMonitor"` to the list of dependencies in your target as well.
@@ -43,7 +43,7 @@ The simplest example uses a closure that receives the notification:
 ```swift
 import AsyncMonitor
 
-@MainActor class SimplestVersion {
+class SimplestVersion {
     let cancellable = NotificationCenter.default
         .notifications(named: .NSCalendarDayChanged).map(\.name)
         .monitor { _ in
@@ -57,7 +57,7 @@ This example uses the context parameter to avoid reference cycles with `self`:
 ```swift
 import AsyncMonitor
 
-@MainActor class WithContext {
+class WithContext {
     var cancellables = Set<AnyAsyncCancellable>()
 
     init() {

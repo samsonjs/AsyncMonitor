@@ -2,7 +2,7 @@ import Foundation
 import Testing
 @testable import AsyncMonitor
 
-@MainActor class AsyncMonitorTests {
+class AsyncMonitorTests {
     let center = NotificationCenter()
     let name = Notification.Name("a random notification")
 
@@ -24,18 +24,18 @@ import Testing
         subject = center.notifications(named: name).map(\.name).monitor { receivedName in
             Issue.record("Called for irrelevant notification \(receivedName)")
         }
-        Task {
+        Task { [center] in
             center.post(name: Notification.Name("something else"), object: nil)
         }
         try await Task.sleep(for: .milliseconds(10))
     }
 
-    @Test func stopsCallingBlockWhenDeallocated() async throws {
+    @Test @MainActor func stopsCallingBlockWhenDeallocated() async throws {
         subject = center.notifications(named: name).map(\.name).monitor { _ in
             Issue.record("Called after deallocation")
         }
 
-        Task {
+        Task { @MainActor in
             subject = nil
             center.post(name: name, object: nil)
         }
@@ -48,7 +48,7 @@ import Testing
 
         private var cancellable: (any AsyncCancellable)?
 
-        @MainActor init(center: NotificationCenter, deinitHook: @escaping () -> Void) {
+        init(center: NotificationCenter, deinitHook: @escaping () -> Void) {
             self.deinitHook = deinitHook
             let name = Notification.Name("irrelevant name")
             cancellable = center.notifications(named: name).map(\.name)
@@ -78,7 +78,7 @@ import Testing
                 Issue.record("Called after context was deallocated")
             }
         context = nil
-        Task {
+        Task { [center, name] in
             center.post(name: name, object: nil)
         }
         try await Task.sleep(for: .milliseconds(10))
