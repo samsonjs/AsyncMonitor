@@ -84,7 +84,7 @@ class KVOExample {
 
     init() {
         let progress = Progress(totalUnitCount: 42)
-        progress.values(for: \.fractionCompleted) { fraction in
+        progress.monitorValues(for: \.fractionCompleted) { fraction in
             print("Progress is \(fraction.formatted(.percent))%")
         }.store(in: &cancellables)
     }
@@ -112,7 +112,7 @@ When you're integrating this into an app with Xcode then go to your project's Pa
 When you're integrating this using SPM on its own then add this to the list of dependencies your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/samsonjs/AsyncMonitor.git", .upToNextMajor(from: "0.2"))
+.package(url: "https://github.com/samsonjs/AsyncMonitor.git", .upToNextMajor(from: "0.2.1"))
 ```
 
 and then add `"AsyncMonitor"` to the list of dependencies in your target as well.

@@ -8,7 +8,9 @@ import Testing
         let cancellable = TestCancellable()
         subject = AnyAsyncCancellable(cancellable: cancellable)
         #expect(!cancellable.isCancelled)
+
         subject = nil
+
         #expect(cancellable.isCancelled)
     }
 
@@ -16,7 +18,9 @@ import Testing
         let cancellable = TestCancellable()
         subject = AnyAsyncCancellable(cancellable: cancellable)
         #expect(!cancellable.isCancelled)
+
         subject.cancel()
+
         #expect(cancellable.isCancelled)
     }
 }

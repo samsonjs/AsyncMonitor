@@ -11,7 +11,9 @@ import Testing
         #expect(cancellables.count == 1)
         subject = nil
         #expect(weakSubject != nil)
+
         cancellables.removeAll()
+
         #expect(weakSubject == nil)
     }
 }
