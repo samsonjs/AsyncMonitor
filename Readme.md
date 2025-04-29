@@ -10,7 +10,7 @@ AsyncMonitor is a Swift library that provides a simple and easy-to-use way to ma
 
 It uses a Swift `Task` to ensure that all resources are properly cleaned up when the `AsyncMonitor` is cancelled or deallocated.
 
-That's it. It's pretty trivial. I just got tired of writing it over and over, mainly for notifications. You still have to map your `Notification`s to something sendable.
+That's it. It's pretty trivial. I just got tired of writing it over and over, mainly for notifications. You still have to map your `Notification`s to something sendable, which brings me to another point. This package pairs nicely with [NotificationSmuggler](https://github.com/samsonjs/NotificationSmuggler) for a complete notification handling system in the Swift 6 concurrency world.
 
 ## Usage
 
