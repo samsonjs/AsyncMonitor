@@ -20,6 +20,7 @@ public final class AsyncMonitor: Hashable, AsyncCancellable {
     ///                Defaults to `#isolation`, preserving the caller's actor isolation.
     ///   - sequence: The asynchronous sequence of elements to observe.
     ///   - block: A closure to execute for each element yielded by the sequence.
+    @available(iOS 18, *)
     public init<Element: Sendable>(
         isolation: isolated (any Actor)? = #isolation,
         sequence: any AsyncSequence<Element, Never>,
@@ -30,6 +31,29 @@ public final class AsyncMonitor: Hashable, AsyncCancellable {
 
             for await element in sequence {
                 await block(element)
+            }
+        }
+    }
+
+    /// Creates an ``AsyncMonitor`` that observes the provided asynchronous sequence.
+    ///
+    /// - Parameters:
+    ///   - sequence: The asynchronous sequence of elements to observe.
+    ///   - block: A closure to execute for each element yielded by the sequence.
+    @available(iOS, introduced: 17, obsoleted: 18)
+    public init<Element: Sendable, Sequence>(
+        sequence: sending Sequence,
+        @_inheritActorContext performing block: @escaping @Sendable (Element) async -> Void
+    ) where Sequence: AsyncSequence, Element == Sequence.Element {
+        self.task = Task {
+            do {
+                for try await element in sequence {
+                    await block(element)
+                }
+            } catch {
+                guard !Task.isCancelled else { return }
+
+                print("Error iterating over sequence: \(error)")
             }
         }
     }

@@ -27,7 +27,7 @@ class AsyncKVOTests {
         #expect(values.count == total)
     }
 
-    // It's important that the test or the progress-observing task are not on the same actor, so
+    // It's important that the test and the progress-observing task are not on the same actor, so
     // we make the test @MainActor and observe progress values on another actor. Otherwise it's a
     // deadlock.
     @Test(.timeLimit(.minutes(1)))

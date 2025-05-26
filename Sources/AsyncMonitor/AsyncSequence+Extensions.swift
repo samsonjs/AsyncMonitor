@@ -1,3 +1,4 @@
+@available(iOS 18, *)
 public extension AsyncSequence where Element: Sendable, Failure == Never {
     /// Observes the elements yielded by this sequence and executes the given closure with each element.
     ///
@@ -28,6 +29,35 @@ public extension AsyncSequence where Element: Sendable, Failure == Never {
         _ block: @escaping (Context, Element) async -> Void
     ) -> AsyncMonitor {
         AsyncMonitor(isolation: isolation, sequence: self) { [weak context] element in
+            guard let context else { return }
+            await block(context, element)
+        }
+    }
+}
+
+@available(iOS, introduced: 17, obsoleted: 18)
+public extension AsyncSequence where Self: Sendable, Element: Sendable {
+    /// Observes the elements yielded by this sequence and executes the given closure with each element.
+    ///
+    /// - Parameters:
+    ///   - block: A closure that's executed with each yielded element.
+    func monitor(
+        _ block: @escaping @Sendable (Element) async -> Void
+    ) -> AsyncMonitor {
+        AsyncMonitor(sequence: self, performing: block)
+    }
+
+    /// Observes the elements yielded by this sequence and executes the given closure with each element the weakly-captured
+    /// context object.
+    ///
+    /// - Parameters:
+    ///   - context: The object to capture weakly for use within the closure.
+    ///   - block: A closure that's executed with each yielded element, and the `context`.
+    func monitor<Context: AnyObject & Sendable>(
+        context: Context,
+        _ block: @escaping @Sendable (Context, Element) async -> Void
+    ) -> AsyncMonitor {
+        AsyncMonitor(sequence: self) { [weak context] element in
             guard let context else { return }
             await block(context, element)
         }
