@@ -101,7 +101,7 @@ The only way to install this package is with Swift Package Manager (SPM). Please
 
 ### Supported Platforms
 
-This package is supported on iOS 18.0+ and macOS 15.0+.
+This package is supported on iOS 17.0+ and macOS 14.0+.
 
 ### Xcode
 
@@ -112,7 +112,7 @@ When you're integrating this into an app with Xcode then go to your project's Pa
 When you're integrating this using SPM on its own then add this to the list of dependencies your Package.swift file:
 
 ```swift
-.package(url: "https://github.com/samsonjs/AsyncMonitor.git", .upToNextMajor(from: "0.2.1"))
+.package(url: "https://github.com/samsonjs/AsyncMonitor.git", .upToNextMajor(from: "0.3.1"))
 ```
 
 and then add `"AsyncMonitor"` to the list of dependencies in your target as well.
