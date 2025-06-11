@@ -9,22 +9,22 @@ class AsyncKVOTests {
     @Test(.timeLimit(.minutes(1)))
     func monitorValuesYieldsChanges() async throws {
         let subject = try #require(subject)
-        var values = [Double]()
+        let values = ValueLocker(value: [Double]())
         let total = 3
         cancellable = subject.values(for: \.fractionCompleted)
             .prefix(total)
             .monitor { progress in
-                values.append(progress)
+                values.modify { $0.append(progress) }
             }
 
         for n in 1...total {
             subject.completedUnitCount += 1
-            while values.count < n {
+            while values.value.count < n {
                 try await Task.sleep(for: .microseconds(2))
             }
         }
 
-        #expect(values.count == total)
+        #expect(values.value.count == total)
     }
 
     // It's important that the test and the progress-observing task are not on the same actor, so

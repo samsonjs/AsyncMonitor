@@ -3,6 +3,8 @@ import Foundation
 
 // MARK: Basics
 
+extension Notification: @unchecked @retroactive Sendable {}
+
 class SimplestVersion {
     let cancellable = NotificationCenter.default
         .notifications(named: .NSCalendarDayChanged)
@@ -12,8 +14,8 @@ class SimplestVersion {
         }
 }
 
-class WithContext {
-    var cancellables = Set<AnyAsyncCancellable>()
+final class WithContext: Sendable {
+    nonisolated(unsafe) var cancellables = Set<AnyAsyncCancellable>()
 
     init() {
         NotificationCenter.default
@@ -31,7 +33,7 @@ class WithContext {
 
 // MARK: - Combine
 
-import Combine
+@preconcurrency import Combine
 
 class CombineExample {
     var cancellables = Set<AnyAsyncCancellable>()

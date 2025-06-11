@@ -25,7 +25,7 @@ public extension NSObjectProtocol where Self: NSObject {
     }
 }
 
-@available(iOS 18, *)
+@available(iOS 18, macOS 15, *)
 public extension NSObjectProtocol where Self: NSObject {
     /// Observes changes to the specified key path on the object and asynchronously yields each value. Values must be `Sendable`.
     ///
@@ -44,6 +44,7 @@ public extension NSObjectProtocol where Self: NSObject {
 }
 
 @available(iOS, introduced: 17, obsoleted: 18)
+@available(macOS, introduced: 14, obsoleted: 15)
 public extension NSObjectProtocol where Self: NSObject {
     /// Observes changes to the specified key path on the object and asynchronously yields each value. Values must be `Sendable`.
     ///

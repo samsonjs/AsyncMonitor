@@ -49,12 +49,12 @@ class AsyncMonitorTests {
         try await Task.sleep(for: .milliseconds(10))
     }
 
-    class Owner {
-        let deinitHook: () -> Void
+    final class Owner: Sendable {
+        let deinitHook: @Sendable () -> Void
 
-        private var cancellable: (any AsyncCancellable)?
+        nonisolated(unsafe) private var cancellable: (any AsyncCancellable)?
 
-        init(center: NotificationCenter, deinitHook: @escaping () -> Void) {
+        init(center: NotificationCenter, deinitHook: @escaping @Sendable () -> Void) {
             self.deinitHook = deinitHook
             let name = Notification.Name("irrelevant name")
             cancellable = center.notifications(named: name)
@@ -78,8 +78,10 @@ class AsyncMonitorTests {
         }
     }
 
+    final class SendableObject: NSObject, Sendable {}
+
     @Test func stopsCallingBlockWhenContextIsDeallocated() async throws {
-        var context: NSObject? = NSObject()
+        var context: SendableObject? = SendableObject()
         subject = center.notifications(named: name)
             .map(\.name)
             .monitor(context: context!) { context, receivedName in
