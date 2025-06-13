@@ -1,4 +1,4 @@
-@available(iOS 18, *)
+@available(iOS 18, macOS 15, *)
 public extension AsyncSequence where Element: Sendable, Failure == Never {
     /// Observes the elements yielded by this sequence and executes the given closure with each element.
     ///
@@ -36,6 +36,7 @@ public extension AsyncSequence where Element: Sendable, Failure == Never {
 }
 
 @available(iOS, introduced: 17, obsoleted: 18)
+@available(macOS, introduced: 14, obsoleted: 15)
 public extension AsyncSequence where Self: Sendable, Element: Sendable {
     /// Observes the elements yielded by this sequence and executes the given closure with each element.
     ///

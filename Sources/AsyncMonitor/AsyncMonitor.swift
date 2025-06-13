@@ -20,7 +20,7 @@ public final class AsyncMonitor: Hashable, AsyncCancellable {
     ///                Defaults to `#isolation`, preserving the caller's actor isolation.
     ///   - sequence: The asynchronous sequence of elements to observe.
     ///   - block: A closure to execute for each element yielded by the sequence.
-    @available(iOS 18, *)
+    @available(iOS 18, macOS 15, *)
     public init<Element: Sendable>(
         isolation: isolated (any Actor)? = #isolation,
         sequence: any AsyncSequence<Element, Never>,
@@ -41,6 +41,7 @@ public final class AsyncMonitor: Hashable, AsyncCancellable {
     ///   - sequence: The asynchronous sequence of elements to observe.
     ///   - block: A closure to execute for each element yielded by the sequence.
     @available(iOS, introduced: 17, obsoleted: 18)
+    @available(macOS, introduced: 14, obsoleted: 15)
     public init<Element: Sendable, Sequence>(
         sequence: sending Sequence,
         @_inheritActorContext performing block: @escaping @Sendable (Element) async -> Void

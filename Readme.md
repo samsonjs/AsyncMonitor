@@ -32,8 +32,8 @@ class SimplestVersion {
 This example uses the context parameter to avoid reference cycles with `self`.
 
 ```swift
-class WithContext {
-    var cancellables = Set<AnyAsyncCancellable>()
+final class WithContext: Sendable {
+    nonisolated(unsafe) var cancellables = Set<AnyAsyncCancellable>()
 
     init() {
         NotificationCenter.default
@@ -55,7 +55,7 @@ class WithContext {
 Working with Combine publishers is trivial thanks to [`AnyPublisher.values`][values].
 
 ```swift
-import Combine
+@preconcurrency import Combine
 
 class CombineExample {
     var cancellables = Set<AnyAsyncCancellable>()
