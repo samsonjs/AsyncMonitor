@@ -2,7 +2,7 @@
 import Testing
 
 @MainActor class AsyncCancellableTests {
-    var cancellables = Set<AnyAsyncCancellable>()
+    var cancellables: Set<AnyAsyncCancellable> = []
 
     @Test func storeInsertsIntoSetAndKeepsSubjectAlive() throws {
         var subject: TestCancellable? = TestCancellable()

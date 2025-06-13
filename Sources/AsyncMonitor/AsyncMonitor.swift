@@ -1,23 +1,24 @@
 /// A monitor that observes an asynchronous sequence and invokes the given block for each received element.
 ///
-/// The element must be `Sendable` so to use it to monitor notifications from `NotificationCenter` you'll need to map them to
-/// something sendable before calling `monitor` on the sequence. e.g.
+/// `AsyncMonitor` wraps the observation of an async sequence in a `Task`, providing automatic cancellation
+/// and memory management. Elements must be `Sendable`. For notifications, map to something sendable:
 ///
-/// ```
+/// ```swift
 /// NotificationCenter.default
 ///     .notifications(named: .NSCalendarDayChanged)
 ///     .map(\.name)
-///     .monitor { _ in whatever() }
-///     .store(in: &cancellables)
+///     .monitor { _ in print("Day changed!") }
 /// ```
+///
+/// On iOS 18+, preserves the caller's actor isolation context by default.
+///
 public final class AsyncMonitor: Hashable, AsyncCancellable {
     let task: Task<Void, Never>
 
-    /// Creates an ``AsyncMonitor`` that observes the provided asynchronous sequence.
+    /// Creates an ``AsyncMonitor`` that observes the provided asynchronous sequence with actor isolation support (iOS 18+).
     ///
     /// - Parameters:
-    ///   - isolation: An optional actor isolation context to inherit.
-    ///                Defaults to `#isolation`, preserving the caller's actor isolation.
+    ///   - isolation: An optional actor isolation context to inherit. Defaults to `#isolation`.
     ///   - sequence: The asynchronous sequence of elements to observe.
     ///   - block: A closure to execute for each element yielded by the sequence.
     @available(iOS 18, macOS 15, *)
@@ -35,11 +36,36 @@ public final class AsyncMonitor: Hashable, AsyncCancellable {
         }
     }
 
-    /// Creates an ``AsyncMonitor`` that observes the provided asynchronous sequence.
+    /// Creates an ``AsyncMonitor`` for sequences that may throw errors (iOS 18+).
     ///
     /// - Parameters:
-    ///   - sequence: The asynchronous sequence of elements to observe.
+    ///   - isolation: An optional actor isolation context to inherit. Defaults to `#isolation`.
+    ///   - sequence: The asynchronous sequence of elements to observe. May throw errors.
     ///   - block: A closure to execute for each element yielded by the sequence.
+    @available(iOS 18, macOS 15, *)
+    public init<Element: Sendable, Sequence: AsyncSequence>(
+        isolation: isolated (any Actor)? = #isolation,
+        sequence: Sequence,
+        performing block: @escaping (Element) async -> Void
+    ) where Sequence.Element == Element {
+        self.task = Task {
+            _ = isolation // use capture trick to inherit isolation
+
+            do {
+                for try await element in sequence {
+                    await block(element)
+                }
+            } catch {
+                guard !Task.isCancelled else { return }
+            }
+        }
+    }
+
+    /// Creates an ``AsyncMonitor`` for iOS 17 compatibility.
+    ///
+    /// - Parameters:
+    ///   - sequence: The asynchronous sequence of elements to observe. Must be `Sendable`.
+    ///   - block: A `@Sendable` closure to execute for each element yielded by the sequence.
     @available(iOS, introduced: 17, obsoleted: 18)
     @available(macOS, introduced: 14, obsoleted: 15)
     public init<Element: Sendable, Sequence>(
@@ -65,7 +91,7 @@ public final class AsyncMonitor: Hashable, AsyncCancellable {
 
     // MARK: AsyncCancellable conformance
 
-    /// Cancels the underlying task monitoring the asynchronous sequence.
+    /// Cancels the underlying task. Safe to call multiple times and automatically called when deallocated.
     public func cancel() {
         task.cancel()
     }
