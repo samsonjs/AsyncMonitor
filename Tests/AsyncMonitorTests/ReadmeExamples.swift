@@ -55,7 +55,7 @@ class KVOExample {
 
     init() {
         let progress = Progress(totalUnitCount: 42)
-        progress.monitorValues(for: \.fractionCompleted) { fraction in
+        progress.monitorValues(for: \.fractionCompleted, options: [.initial, .new]) { fraction in
             print("Progress is \(fraction.formatted(.percent))%")
         }.store(in: &cancellables)
     }
