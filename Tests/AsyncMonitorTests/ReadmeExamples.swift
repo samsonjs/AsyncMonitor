@@ -15,7 +15,7 @@ class SimplestVersion {
 }
 
 final class WithContext: Sendable {
-    nonisolated(unsafe) var cancellables = Set<AnyAsyncCancellable>()
+    nonisolated(unsafe) var cancellables: Set<AnyAsyncCancellable> = []
 
     init() {
         NotificationCenter.default
@@ -36,7 +36,7 @@ final class WithContext: Sendable {
 @preconcurrency import Combine
 
 class CombineExample {
-    var cancellables = Set<AnyAsyncCancellable>()
+    var cancellables: Set<AnyAsyncCancellable> = []
 
     init() {
         Timer.publish(every: 1.0, on: .main, in: .common)
@@ -44,15 +44,14 @@ class CombineExample {
             .values
             .monitor { date in
                 print("Timer fired at \(date)")
-            }
-            .store(in: &cancellables)
+            }.store(in: &cancellables)
     }
 }
 
 // MARK: - KVO
 
 class KVOExample {
-    var cancellables = Set<AnyAsyncCancellable>()
+    var cancellables: Set<AnyAsyncCancellable> = []
 
     init() {
         let progress = Progress(totalUnitCount: 42)
