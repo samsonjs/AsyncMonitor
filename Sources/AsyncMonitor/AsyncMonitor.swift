@@ -71,7 +71,7 @@ public final class AsyncMonitor: Hashable, AsyncCancellable {
     public init<Element: Sendable, Sequence>(
         sequence: sending Sequence,
         @_inheritActorContext performing block: @escaping @Sendable (Element) async -> Void
-    ) where Sequence: AsyncSequence, Element == Sequence.Element {
+    ) where Sequence: AsyncSequence & Sendable, Sequence.Element == Element {
         self.task = Task {
             do {
                 for try await element in sequence {
