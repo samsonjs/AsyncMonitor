@@ -1,6 +1,6 @@
 # Releasing AsyncMonitor
 
-There's no schedule here. Ship bug fixes whenever, features when they're ready, and breaking changes as rarely as you can stand.
+There's no schedule here. Ship bug fixes whenever, features when they're ready, and breaking changes rarely.
 
 AsyncMonitor is a Swift package and a release is just a git tag. SwiftPM resolves versions directly from tags.
 

@@ -6,7 +6,7 @@ import Testing
 
     @Test func storeInsertsIntoSetAndKeepsSubjectAlive() throws {
         var subject: TestCancellable? = TestCancellable()
-        weak var weakSubject: TestCancellable? = subject
+        weak let weakSubject: TestCancellable? = subject
         try #require(subject).store(in: &cancellables)
         #expect(cancellables.count == 1)
         subject = nil
