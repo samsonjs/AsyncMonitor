@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+- Your change here.
+
+[Unreleased]: https://github.com/samsonjs/AsyncMonitor/compare/0.4.0...HEAD
+
 ## [0.4.0] - 2026-05-17
 
 ### Removed
