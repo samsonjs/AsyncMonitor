@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.4.0] - 2026-05-17
 
 ### Removed
 - **Breaking**: Dropped support for iOS 17 and macOS 14. Minimum platforms are now iOS 18.0 and macOS 15.0.
@@ -9,7 +9,7 @@
 ### Changed
 - The remaining `monitor` and `monitorValues` APIs no longer carry `@available` gates and rely on the actor-isolation-aware overloads that previously required iOS 18 / macOS 15.
 
-[Unreleased]: https://github.com/samsonjs/AsyncMonitor/compare/0.3.1...HEAD
+[0.4.0]: https://github.com/samsonjs/AsyncMonitor/compare/0.3.1...0.4.0
 
 ## [0.3.1] - 2025-05-25
 
