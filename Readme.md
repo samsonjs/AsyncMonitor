@@ -100,7 +100,7 @@ The only way to install this package is with Swift Package Manager (SPM). Please
 
 ### Supported Platforms
 
-This package is supported on iOS 17.0+ and macOS 14.0+.
+This package is supported on iOS 18.0+ and macOS 15.0+.
 
 ### Xcode
 

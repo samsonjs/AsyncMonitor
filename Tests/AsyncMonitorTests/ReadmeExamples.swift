@@ -3,8 +3,6 @@ import Foundation
 
 // MARK: Basics
 
-extension Notification: @unchecked @retroactive Sendable {}
-
 class SimplestVersion {
     let cancellable = NotificationCenter.default
         .notifications(named: .NSCalendarDayChanged)

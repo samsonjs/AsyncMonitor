@@ -10,18 +10,17 @@
 ///     .monitor { _ in print("Day changed!") }
 /// ```
 ///
-/// On iOS 18+, preserves the caller's actor isolation context by default.
+/// Preserves the caller's actor isolation context by default.
 ///
 public final class AsyncMonitor: Hashable, AsyncCancellable {
     let task: Task<Void, Never>
 
-    /// Creates an ``AsyncMonitor`` that observes the provided asynchronous sequence with actor isolation support (iOS 18+).
+    /// Creates an ``AsyncMonitor`` that observes the provided asynchronous sequence.
     ///
     /// - Parameters:
     ///   - isolation: An optional actor isolation context to inherit. Defaults to `#isolation`.
     ///   - sequence: The asynchronous sequence of elements to observe.
     ///   - block: A closure to execute for each element yielded by the sequence.
-    @available(iOS 18, macOS 15, *)
     public init<Element: Sendable>(
         isolation: isolated (any Actor)? = #isolation,
         sequence: any AsyncSequence<Element, Never>,
@@ -36,13 +35,12 @@ public final class AsyncMonitor: Hashable, AsyncCancellable {
         }
     }
 
-    /// Creates an ``AsyncMonitor`` for sequences that may throw errors (iOS 18+).
+    /// Creates an ``AsyncMonitor`` for sequences that may throw errors.
     ///
     /// - Parameters:
     ///   - isolation: An optional actor isolation context to inherit. Defaults to `#isolation`.
     ///   - sequence: The asynchronous sequence of elements to observe. May throw errors.
     ///   - block: A closure to execute for each element yielded by the sequence.
-    @available(iOS 18, macOS 15, *)
     public init<Element: Sendable, Sequence: AsyncSequence>(
         isolation: isolated (any Actor)? = #isolation,
         sequence: Sequence,
@@ -57,30 +55,6 @@ public final class AsyncMonitor: Hashable, AsyncCancellable {
                 }
             } catch {
                 guard !Task.isCancelled else { return }
-            }
-        }
-    }
-
-    /// Creates an ``AsyncMonitor`` for iOS 17 compatibility.
-    ///
-    /// - Parameters:
-    ///   - sequence: The asynchronous sequence of elements to observe. Must be `Sendable`.
-    ///   - block: A `@Sendable` closure to execute for each element yielded by the sequence.
-    @available(iOS, introduced: 17, obsoleted: 18)
-    @available(macOS, introduced: 14, obsoleted: 15)
-    public init<Element: Sendable, Sequence>(
-        sequence: sending Sequence,
-        @_inheritActorContext performing block: @escaping @Sendable (Element) async -> Void
-    ) where Sequence: AsyncSequence & Sendable, Sequence.Element == Element {
-        self.task = Task {
-            do {
-                for try await element in sequence {
-                    await block(element)
-                }
-            } catch {
-                guard !Task.isCancelled else { return }
-
-                print("Error iterating over sequence: \(error)")
             }
         }
     }

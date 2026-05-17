@@ -54,7 +54,6 @@ public extension NSObjectProtocol where Self: NSObject {
     }
 }
 
-@available(iOS 18, macOS 15, *)
 public extension NSObjectProtocol where Self: NSObject {
     /// Observes changes to the specified key path on the object and executes a handler for each change.
     ///
@@ -108,45 +107,3 @@ public extension NSObjectProtocol where Self: NSObject {
     }
 }
 
-@available(iOS, introduced: 17, obsoleted: 18)
-@available(macOS, introduced: 14, obsoleted: 15)
-public extension NSObjectProtocol where Self: NSObject {
-    /// Observes changes to the specified key path on the object and executes a handler for each change (iOS 17 compatibility).
-    ///
-    /// This method provides backward compatibility for iOS 17. It combines KVO observation with ``AsyncMonitor``
-    /// and requires a `@Sendable` closure for thread safety.
-    ///
-    /// - Parameters:
-    ///   - keyPath: The key path to observe on this object. The value type must be `Sendable`
-    ///              to ensure thread safety across async contexts.
-    ///   - options: KVO options to use for observation. Defaults to an empty set.
-    ///              See `NSKeyValueObservingOptions` for available options.
-    ///   - changeHandler: A `@Sendable` closure that's executed with each new value.
-    ///
-    /// - Returns: An ``AsyncCancellable`` that can be stored and cancelled as needed.
-    ///
-    /// ## Example
-    ///
-    /// ```swift
-    /// class ProgressObserver {
-    ///     var cancellables: Set<AnyAsyncCancellable> = []
-    ///     
-    ///     func observeProgress(_ progress: Progress) {
-    ///         progress.monitorValues(for: \.fractionCompleted) { fraction in
-    ///             print("Progress: \(fraction.formatted(.percent))")
-    ///         }.store(in: &cancellables)
-    ///     }
-    /// }
-    /// ```
-    ///
-    /// - Note: This method is deprecated in iOS 18+ in favour of the non-`@Sendable` version
-    ///   which provides better actor isolation support.
-    func monitorValues<Value: Sendable>(
-        for keyPath: KeyPath<Self, Value>,
-        options: NSKeyValueObservingOptions = [],
-        changeHandler: @escaping @Sendable (Value) -> Void
-    ) -> any AsyncCancellable {
-        values(for: keyPath, options: options)
-            .monitor(changeHandler)
-    }
-}

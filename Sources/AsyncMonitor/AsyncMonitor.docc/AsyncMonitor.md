@@ -4,7 +4,7 @@ Wraps async sequence observation in manageable tasks.
 
 ## Overview
 
-AsyncMonitor wraps async sequence observation in a `Task` that can be cancelled and stored. It preserves actor isolation on iOS 18+ and includes KVO integration.
+AsyncMonitor wraps async sequence observation in a `Task` that can be cancelled and stored. It preserves actor isolation and includes KVO integration.
 
 ## Basic Usage
 
@@ -91,7 +91,7 @@ sequence.monitor { element in
 
 ## Platform Requirements
 
-- iOS 17.0+ / macOS 14.0+
+- iOS 18.0+ / macOS 15.0+
 - Swift 6.0+
 
 ## Topics

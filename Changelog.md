@@ -2,7 +2,12 @@
 
 ## [Unreleased]
 
-- Your change here.
+### Removed
+- **Breaking**: Dropped support for iOS 17 and macOS 14. Minimum platforms are now iOS 18.0 and macOS 15.0.
+- Removed the iOS 17 compatibility variants of `AsyncMonitor.init`, `AsyncSequence.monitor`, and `NSObjectProtocol.monitorValues` along with their `@Sendable` closure requirements.
+
+### Changed
+- The remaining `monitor` and `monitorValues` APIs no longer carry `@available` gates and rely on the actor-isolation-aware overloads that previously required iOS 18 / macOS 15.
 
 [Unreleased]: https://github.com/samsonjs/AsyncMonitor/compare/0.3.1...HEAD
 
