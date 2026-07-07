@@ -15,7 +15,8 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "AsyncMonitor"
+            name: "AsyncMonitor",
+            exclude: ["AsyncMonitor.docc"]
         ),
         .testTarget(
             name: "AsyncMonitorTests",
