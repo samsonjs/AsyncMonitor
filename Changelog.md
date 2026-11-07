@@ -4,7 +4,7 @@
 
 - Your change here.
 
-[Unreleased]: https://github.com/samsonjs/AsyncMonitor/compare/0.4.0...HEAD
+[Unreleased]: https://git.samhuri.net/sjs/AsyncMonitor/compare/0.4.0...HEAD
 
 ## [0.4.0] - 2026-05-17
 
@@ -15,14 +15,14 @@
 ### Changed
 - The remaining `monitor` and `monitorValues` APIs no longer carry `@available` gates and rely on the actor-isolation-aware overloads that previously required iOS 18 / macOS 15.
 
-[0.4.0]: https://github.com/samsonjs/AsyncMonitor/compare/0.3.1...0.4.0
+[0.4.0]: https://git.samhuri.net/sjs/AsyncMonitor/compare/0.3.1...0.4.0
 
 ## [0.3.1] - 2025-05-25
 
 ### Changed
 - Updated documentation in Readme.md
 
-[0.3.1]: https://github.com/samsonjs/AsyncMonitor/compare/0.3...0.3.1
+[0.3.1]: https://git.samhuri.net/sjs/AsyncMonitor/compare/0.3...0.3.1
 
 ## [0.3] - 2025-05-25
 
@@ -36,7 +36,7 @@
 - Improved AsyncSequence extensions with version-specific monitor methods
 - Updated NSObject+AsyncKVO implementation for broader platform support
 
-[0.3]: https://github.com/samsonjs/AsyncMonitor/compare/0.2.1...0.3
+[0.3]: https://git.samhuri.net/sjs/AsyncMonitor/compare/0.2.1...0.3
 
 ## [0.2.1] - 2025-04-26
 
@@ -50,14 +50,14 @@
 - Enhanced test coverage for NSObject+AsyncKVO functionality
 - Additional test cases for async cancellable behavior
 
-[0.2.1]: https://github.com/samsonjs/AsyncMonitor/compare/0.2...0.2.1
+[0.2.1]: https://git.samhuri.net/sjs/AsyncMonitor/compare/0.2...0.2.1
 
 ## [0.2] - 2025-04-26
 
 ### Changed
 - Version bump to 0.2
 
-[0.2]: https://github.com/samsonjs/AsyncMonitor/compare/0.1.1...0.2
+[0.2]: https://git.samhuri.net/sjs/AsyncMonitor/compare/0.1.1...0.2
 
 ## [0.1.1] - 2025-04-25
 
@@ -70,7 +70,7 @@
 - Enhanced README with detailed usage examples and patterns
 - Expanded test suite coverage
 
-[0.1.1]: https://github.com/samsonjs/AsyncMonitor/compare/0.1...0.1.1
+[0.1.1]: https://git.samhuri.net/sjs/AsyncMonitor/compare/0.1...0.1.1
 
 ## [0.1] - 2025-04-25
 
@@ -85,4 +85,4 @@
 - Comprehensive test suite
 - Documentation and usage examples
 
-[0.1]: https://github.com/samsonjs/AsyncMonitor/releases/tag/0.1
+[0.1]: https://git.samhuri.net/sjs/AsyncMonitor/releases/tag/0.1
