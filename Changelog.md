@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-- Your change here.
+- CI fails on Swift compiler warnings.
 
 [Unreleased]: https://git.samhuri.net/sjs/AsyncMonitor/compare/0.4.0...HEAD
 
